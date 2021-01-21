@@ -1,4 +1,4 @@
-package com.desafio.pedro;
+package com.desafio.pedro.entity;
 
 import java.util.List;
 
@@ -17,23 +17,27 @@ public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id_cliente;
+	private int idCliente;
 	
-	private String nome;
+	private String nomeCliente;
+
+	public int getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
+	}
 	
 	
-	public int getId_cliente() {
-		return id_cliente;
-	}
-	public void setId_cliente(int id_cliente) {
-		this.id_cliente = id_cliente;
-	}
-	public String getNome_cliente() {
-		return nome;
-	}
-	public void setNome_cliente(String nome_cliente) {
-		this.nome = nome_cliente;
-	}
 	
 	
 }
