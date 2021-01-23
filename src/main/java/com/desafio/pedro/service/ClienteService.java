@@ -51,13 +51,9 @@ public class ClienteService {
 
 	}
 
-	public ResponseEntity<?> listar() {
-		List<Cliente> lista = repositorio.findAll();
-		if (lista.size() != 0) {
-			return ResponseEntity.status(HttpStatus.OK.value()).body(lista);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	public List<Cliente> listar() {
+		return repositorio.findAll();
+		
 	}
 
 	public ResponseEntity<?> buscarPorNome(String nome) {
@@ -66,7 +62,7 @@ public class ClienteService {
 		if (lista.size() != 0) {
 			return ResponseEntity.status(HttpStatus.OK.value()).body(lista);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(lista);
 		}
 	}
 }

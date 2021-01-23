@@ -20,48 +20,37 @@ import com.desafio.pedro.service.ClienteService;
 
 public class ClienteController {
 
-	
 	private ClienteService servico;
 
 	public ClienteController(ClienteService servico) {
 
-		
 		this.servico = servico;
 	}
 
-	
 	@RequestMapping(method = RequestMethod.GET, path = "/clientes")
-	public ResponseEntity<?> listar() {
-		
-
+	public List<Cliente> listar() {
 		return servico.listar();
-
 	}
 
-	
 	@RequestMapping(method = RequestMethod.POST, path = "/cadastrar")
 	public ResponseEntity<?> criar(@RequestBody Cliente cliente) {
 
 		return servico.criar(cliente);
 	}
 
-	
 	@RequestMapping(value = "/deletarCliente/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> excluir(@PathVariable(value = "id") int id) {
 		return servico.excluir(id);
 	}
 
-	
 	@RequestMapping(value = "/alterarCliente/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> alterar(@PathVariable(value = "id") int id, @RequestBody Cliente cliente) {
-		          
-		return  servico.alterar(id, cliente);
+
+		return servico.alterar(id, cliente);
 	}
 
-	
 	@RequestMapping(value = "/buscarPorNome/{nome}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscarPorNome(@PathVariable(value = "nome") String nome) {
-		
 
 		return servico.buscarPorNome(nome);
 	}
