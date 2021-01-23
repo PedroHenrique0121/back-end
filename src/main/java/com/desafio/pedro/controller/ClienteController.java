@@ -1,10 +1,8 @@
 package com.desafio.pedro.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.desafio.pedro.entity.Cliente;
 import com.desafio.pedro.repository.ClienteRepository;
-
-
+import com.desafio.pedro.service.ClienteService;
 
 @RestController
 @ComponentScan()
@@ -24,80 +21,49 @@ import com.desafio.pedro.repository.ClienteRepository;
 public class ClienteController {
 
 	
-	private ClienteRepository cli;
+	private ClienteService servico;
 
-	public ClienteController( ClienteRepository cli) {
+	public ClienteController(ClienteService servico) {
+
 		
-		this.cli = cli;
+		this.servico = servico;
 	}
+
 	
-	
-	 
-	
-	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.GET, path = "/clientes")
-	public List<Cliente> listar() {
-		List<Cliente> lista = cli.findAll();
+	public ResponseEntity<?> listar() {
 		
-		return  lista;
-		
-		
+
+		return servico.listar();
+
 	}
+
 	
-	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(method = RequestMethod.POST, path = "/cadastrar")
-	public ResponseEntity<Cliente> criar( @RequestBody Cliente cliente) {
-		Cliente clienteNovo ;
-		clienteNovo= cliente;
+	public ResponseEntity<?> criar(@RequestBody Cliente cliente) {
 
-		cli.save(clienteNovo);
-		return new ResponseEntity<Cliente>(clienteNovo, HttpStatus.CREATED);
+		return servico.criar(cliente);
 	}
 
 	
+	@RequestMapping(value = "/deletarCliente/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> excluir(@PathVariable(value = "id") int id) {
+		return servico.excluir(id);
+	}
+
 	
+	@RequestMapping(value = "/alterarCliente/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> alterar(@PathVariable(value = "id") int id, @RequestBody Cliente cliente) {
+		          
+		return  servico.alterar(id, cliente);
+	}
+
 	
-	@CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/deletarCliente/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> excluir(@PathVariable(value = "id") long id)
-    {
-        Optional<Cliente> cliente = cli.findById((int) id);
-        if(cliente.isPresent()){
-            cli.delete(cliente.get());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/alterarCliente/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> alterar(@PathVariable(value = "id") long id, @RequestBody Cliente cliente)
-    {
-        Optional<Cliente> clienteNovo = cli.findById((int) id);
-        if(clienteNovo.isPresent()){
-        	 
-             Cliente c = clienteNovo.get();
-             c.setNomeCliente(cliente.getNomeCliente());
-             cli.save(c);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    
-    @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/buscarPorNome/{nome}", method = RequestMethod.GET)
-    public  List<Cliente> buscarPorNome(@PathVariable(value = "nome") String nome)
-    {
-         List<Cliente> lista = cli.findByNomeClienteContaining(nome);
-        
-        
-            return lista;
-    }
+	@RequestMapping(value = "/buscarPorNome/{nome}", method = RequestMethod.GET)
+	public ResponseEntity<?> buscarPorNome(@PathVariable(value = "nome") String nome) {
+		
+
+		return servico.buscarPorNome(nome);
+	}
 
 }
-
-

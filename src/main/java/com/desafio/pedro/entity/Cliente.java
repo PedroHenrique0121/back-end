@@ -12,13 +12,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="clientes")
+@Table(name = "clientes")
 public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idCliente;
-	
+
 	private String nomeCliente;
 
 	public int getIdCliente() {
@@ -36,9 +36,5 @@ public class Cliente {
 	public void setNomeCliente(String nomeCliente) {
 		this.nomeCliente = nomeCliente;
 	}
-	
-	
-	
-	
-}
 
+}
